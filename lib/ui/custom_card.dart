@@ -11,24 +11,26 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var snapshotData = snapshot.documents[index].data;
+    var docId = snapshot.documents[index].documentID;
+
     var timeToDate = new DateTime.fromMillisecondsSinceEpoch(
-        snapshot.documents[index].data["timestamp"].seconds*1000);
+        snapshotData["timestamp"].seconds*1000);
     var dateFormatted = new DateFormat("EEEE, d MMM, y").format(timeToDate);
     return Column(
       children: <Widget>[
         Container(
-          height: 150,
           child: Card(
             elevation: 9,
             child: Column(
               children: <Widget>[
                 ListTile(
-                  title: Text(snapshot.documents[index].data["title"]),
-                  subtitle: Text(snapshot.documents[index].data["description"]),
+                  title: Text(snapshotData["title"]),
+                  subtitle: Text(snapshotData["description"]),
                   leading: CircleAvatar(
                     radius: 34,
                     child: Text(
-                        snapshot.documents[index].data["title"].toString()[0]),
+                        snapshotData["title"].toString()[0]),
                   ),
                 ),
                 Padding(
@@ -36,11 +38,22 @@ class CustomCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      Text("By :${snapshot.documents[index].data["name"]} "),
+                      Text("By :${snapshotData["name"]} "),
                       Text( dateFormatted),
                     ],
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    IconButton(icon: Icon(FontAwesomeIcons.solidEdit, size: 15,), onPressed: (){}),
+                    SizedBox(height: 19,),
+                    IconButton(icon: Icon(FontAwesomeIcons.trash, size: 15,), onPressed: ()async {
+                      var collectionReference = Firestore.instance.collection("board");
+                      await collectionReference.document(docId).delete();
+                    }),
+                  ],
+                )
               ],
             ),
           ),
