@@ -17,6 +17,7 @@ class BoardApp extends StatefulWidget {
 
 class _BoardAppState extends State<BoardApp> {
   var firestoreDB = Firestore.instance.collection("board").snapshots();
+
   TextEditingController nameInputController;
   TextEditingController titleInputController;
   TextEditingController descriptionInputController;
