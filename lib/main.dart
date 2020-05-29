@@ -1,3 +1,4 @@
+import 'package:boardtwik/ui/custom_card.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,7 +48,7 @@ class _BoardAppState extends State<BoardApp> {
           return ListView.builder(
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, int index){
-              return Text(snapshot.data.documents[index]['title']);
+              return CustomCard(snapshot: snapshot.data, index: index);
           });
 
           }),
@@ -92,7 +93,27 @@ class _BoardAppState extends State<BoardApp> {
 
             Navigator.pop(context);
           },
-          child: Text("Cancel"),)
+            child: Text("Cancel"),
+          ),
+          FlatButton(onPressed: (){
+            if( titleInputController.text.isNotEmpty && nameInputController.text.isNotEmpty && descriptionInputController.text.isNotEmpty){
+              Firestore.instance.collection("board").add({
+                'name': nameInputController.text,
+                'title': titleInputController.text,
+                'description': descriptionInputController.text,
+                'timestamp': new DateTime.now(),
+
+              }).then((response){
+                print(response.documentID);
+                Navigator.pop(context);
+                nameInputController.clear();
+                titleInputController.clear();
+                descriptionInputController.clear();
+              }).catchError((error)=> print(error));
+            }
+
+          },
+          child: Text("Save"),)
         ],
       )
     );
