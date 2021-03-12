@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
+
 class CustomCard extends StatelessWidget {
   final QuerySnapshot snapshot;
   final int index;
@@ -33,8 +34,11 @@ class CustomCard extends StatelessWidget {
                   title: Text(snapshotData["title"]),
                   subtitle: Text(snapshotData["description"]),
                   leading: CircleAvatar(
+
                     radius: 34,
-                    child: Text(snapshotData["title"].toString()[0]),
+                    backgroundColor: Colors.blue[400],
+                    backgroundImage: NetworkImage('https://avatars.dicebear.com/api/identicon/${snapshotData["name"]}.png'),
+                    // child: Text(snapshotData["title"].toString()[0]),
                   ),
                 ),
                 Padding(
@@ -116,21 +120,21 @@ class CustomCard extends StatelessWidget {
                                         }).then((response){
                                           Navigator.pop(context);
                                         });
-//                                        Firestore.instance
-//                                            .collection("board")
-//                                            .add({
-//                                          'name': nameInputController.text,
-//                                          'title': titleInputController.text,
-//                                          'description':
-//                                              descriptionInputController.text,
-//                                          'timestamp': new DateTime.now(),
-//                                        }).then((response) {
-//                                          print(response.documentID);
-//                                          Navigator.pop(context);
-//                                          nameInputController.clear();
-//                                          titleInputController.clear();
-//                                          descriptionInputController.clear();
-//                                        }).catchError((error) => print(error));
+                                       Firestore.instance
+                                           .collection("board")
+                                           .add({
+                                         'name': nameInputController.text,
+                                         'title': titleInputController.text,
+                                         'description':
+                                             descriptionInputController.text,
+                                         'timestamp': new DateTime.now(),
+                                       }).then((response) {
+                                         print(response.documentID);
+                                         Navigator.pop(context);
+                                         nameInputController.clear();
+                                         titleInputController.clear();
+                                         descriptionInputController.clear();
+                                       }).catchError((error) => print(error));
                                       }
                                     },
                                     child: Text("Update"),
