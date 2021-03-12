@@ -1,6 +1,6 @@
 # boardtwik
 
-A new Flutter application.
+connect with everyone and broad cast messages
 
 ## Getting Started
 
